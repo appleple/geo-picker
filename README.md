@@ -14,7 +14,7 @@
 const editor = new OpenMapEditor('.js-map-editor');
 ```
 
-# Method
+## Method
 
 update pin location
 
