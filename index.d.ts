@@ -19,7 +19,7 @@ declare module 'openmap-editor' {
 
 	export default class OpenMapEditor {
 		constructor(selector: string | HTMLElement, option?:OpenMapEditorOption) : this;
-		updatePin(updateOption) : this;
+		updatePin(option: updateOption) : this;
 		destroy(): void
 	}
 }
