@@ -1,5 +1,3 @@
-import OpenMapEditor from "openmap-editor";
-
 declare module 'openmap-editor' {
 	interface OpenMapEditorOption {
 		searchInput?: string,
