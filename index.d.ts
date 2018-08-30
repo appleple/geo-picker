@@ -1,3 +1,5 @@
+import OpenMapEditor from "openmap-editor";
+
 declare module 'openmap-editor' {
 	interface OpenMapEditorOption {
 		searchInput?: string,
@@ -18,8 +20,8 @@ declare module 'openmap-editor' {
 	}
 
 	export default class OpenMapEditor {
-		constructor(selector: string | HTMLElement, option?:OpenMapEditorOption) : this;
-		updatePin(option: updateOption) : this;
+		constructor(selector: string | HTMLElement, option?:OpenMapEditorOption) : OpenMapEditor;
+		updatePin(option: updateOption) : OpenMapEditor;
 		destroy(): void
 	}
 }
