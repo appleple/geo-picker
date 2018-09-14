@@ -1,10 +1,10 @@
 {
   "name": "geo-picker",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "geo-picker",
   "homepage": "http://developer.a-blogcms.jp",
-	"main": "lib/index.js",
-	"types": "./index.d.ts",
+  "main": "lib/index.js",
+  "types": "./index.d.ts",
   "scripts": {
     "test": "eslint ./src/core/index.js --fix",
     "build:js": "npm-run-all -p build:lib build:jquery build:global",
