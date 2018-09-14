@@ -1,4 +1,4 @@
-# OSM Editor
+# GeoPicker
 
 ## Screenshot
 
@@ -6,20 +6,20 @@
 
 ## Demo
 
-[https://rawgit.com/appleple/openmap-editor/master/test/index.html](https://rawgit.com/appleple/openmap-editor/master/test/index.html)
+[https://rawgit.com/appleple/geo-picker/master/test/index.html](https://rawgit.com/appleple/geo-picker/master/test/index.html)
 
 ## Usage
 
 js
 
 ```js
-const editor = new OpenMapEditor('.js-map-editor');
+const editor = new GeoPicker('.js-geo-picker');
 ```
 
 html
 
 ```html
-<table class="formColumnMap {diff} js-osm_editable-container">
+<table class="formColumnMap {diff} js-geo-picker">
   <tr>
     <td class="formColumnMapTd">
       <div class="acms-admin-margin-bottom-small">
