@@ -10,9 +10,13 @@
 
 ## Usage
 
+js
+
 ```js
 const editor = new OpenMapEditor('.js-map-editor');
 ```
+
+html
 
 ```html
 <table class="formColumnMap {diff} js-osm_editable-container">
