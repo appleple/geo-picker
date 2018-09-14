@@ -16155,8 +16155,6 @@ var defaultOptions = {
 
 var GeoPicker = function () {
   function GeoPicker(item, options) {
-    var _this = this;
-
     _classCallCheck(this, GeoPicker);
 
     var opt = Object.assign({}, defaultOptions, options);
@@ -16182,60 +16180,6 @@ var GeoPicker = function () {
 
     marker.addTo(map).bindPopup(msg).openPopup();
 
-    lngEle.addEventListener('input', this.lngListener = function (e) {
-      var lng = e.target.value;
-      _this.updatePin({ lng: lng });
-    }, true);
-
-    latEle.addEventListener('input', this.latListener = function (e) {
-      var lat = e.target.value;
-      _this.updatePin({ lat: lat });
-    }, true);
-
-    map.on('zoomend', function (e) {
-      _this.zoom = map.getZoom();
-      _this.zoomEle.value = _this.zoom;
-    });
-
-    zoomEle.addEventListener('input', this.zoomListener = function (e) {
-      var zoom = e.target.value;
-      _this.updatePin({ zoom: zoom });
-    }, true);
-
-    msgEle.addEventListener('input', this.msgListener = function (e) {
-      var msg = e.target.value;
-      _this.updatePin({ msg: msg });
-    }, true);
-
-    searchBtn.addEventListener('click', this.searchBtnListener = function () {
-      var query = searchInputEle.value;
-      provider.search({ query: query }).then(function (results) {
-        if (results.length) {
-          var result = results[0];
-          _this.updatePin({
-            lng: result.x,
-            lat: result.y
-          });
-        }
-      });
-    }, true);
-
-    marker.on("drag", function (e) {
-      var position = marker.getLatLng();
-      var lat = position.lat,
-          lng = position.lng;
-
-      _this.updatePin({ lat: lat, lng: lng, disableViewUpdate: true });
-    });
-
-    marker.on("dragend", function (e) {
-      var position = marker.getLatLng();
-      var lat = position.lat,
-          lng = position.lng;
-
-      map.panTo(new _leaflet2.default.LatLng(lat, lng));
-    });
-
     this.options = opt;
     this.selector = selector;
     this.map = map;
@@ -16244,13 +16188,85 @@ var GeoPicker = function () {
     this.lng = lng;
     this.zoom = zoom;
     this.msg = msg;
+    this.msgEle = msgEle;
     this.latEle = latEle;
     this.lngEle = lngEle;
     this.zoomEle = zoomEle;
+    this.searchInputEle = searchInputEle;
+    this.searchBtn = searchBtn;
+    this.setEvent();
     return this;
   }
 
   _createClass(GeoPicker, [{
+    key: 'setEvent',
+    value: function setEvent() {
+      var _this = this;
+
+      var map = this.map,
+          msgEle = this.msgEle,
+          marker = this.marker,
+          latEle = this.latEle,
+          lngEle = this.lngEle,
+          zoomEle = this.zoomEle,
+          searchBtn = this.searchBtn,
+          searchInputEle = this.searchInputEle;
+
+      lngEle.addEventListener('input', this.lngListener = function (e) {
+        var lng = e.target.value;
+        _this.updatePin({ lng: lng });
+      }, true);
+
+      latEle.addEventListener('input', this.latListener = function (e) {
+        var lat = e.target.value;
+        _this.updatePin({ lat: lat });
+      }, true);
+
+      map.on('zoomend', function () {
+        _this.zoom = map.getZoom();
+        _this.zoomEle.value = _this.zoom;
+      });
+
+      zoomEle.addEventListener('input', this.zoomListener = function (e) {
+        var zoom = e.target.value;
+        _this.updatePin({ zoom: zoom });
+      }, true);
+
+      msgEle.addEventListener('input', this.msgListener = function (e) {
+        var msg = e.target.value;
+        _this.updatePin({ msg: msg });
+      }, true);
+
+      searchBtn.addEventListener('click', this.searchBtnListener = function () {
+        var query = searchInputEle.value;
+        provider.search({ query: query }).then(function (results) {
+          if (results.length) {
+            var result = results[0];
+            _this.updatePin({
+              lng: result.x,
+              lat: result.y
+            });
+          }
+        });
+      }, true);
+
+      marker.on('drag', function () {
+        var position = marker.getLatLng();
+        var lat = position.lat,
+            lng = position.lng;
+
+        _this.updatePin({ lat: lat, lng: lng, disableViewUpdate: true });
+      });
+
+      marker.on('dragend', function () {
+        var position = marker.getLatLng();
+        var lat = position.lat,
+            lng = position.lng;
+
+        map.panTo(new _leaflet2.default.LatLng(lat, lng));
+      });
+    }
+  }, {
     key: 'updatePin',
     value: function updatePin(_ref) {
       var _ref$lat = _ref.lat,

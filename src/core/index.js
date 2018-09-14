@@ -41,6 +41,26 @@ export default class GeoPicker {
       .bindPopup(msg)
       .openPopup();
 
+    this.options = opt;
+    this.selector = selector;
+    this.map = map;
+    this.marker = marker;
+    this.lat = lat;
+    this.lng = lng;
+    this.zoom = zoom;
+    this.msg = msg;
+    this.msgEle = msgEle;
+    this.latEle = latEle;
+    this.lngEle = lngEle;
+    this.zoomEle = zoomEle;
+    this.searchInputEle = searchInputEle;
+    this.searchBtn = searchBtn;
+    this.setEvent();
+    return this;
+  }
+
+  setEvent() {
+    const { map, msgEle, marker, latEle, lngEle, zoomEle, searchBtn, searchInputEle } = this;
     lngEle.addEventListener('input', this.lngListener = (e) => {
       const lng = e.target.value;
       this.updatePin({ lng });
@@ -51,7 +71,7 @@ export default class GeoPicker {
       this.updatePin({ lat });
     }, true);
 
-    map.on('zoomend', (e) => {
+    map.on('zoomend', () => {
       this.zoom = map.getZoom();
       this.zoomEle.value = this.zoom;
     });
@@ -79,30 +99,17 @@ export default class GeoPicker {
       });
     }, true);
 
-    marker.on("drag", (e) => {
+    marker.on('drag', () => {
       const position = marker.getLatLng();
       const { lat, lng } = position;
       this.updatePin({ lat, lng, disableViewUpdate: true });
     });
 
-    marker.on("dragend", (e) => {
+    marker.on('dragend', () => {
       const position = marker.getLatLng();
       const { lat, lng } = position;
       map.panTo(new Leaflet.LatLng(lat, lng));
     });
-
-    this.options = opt;
-    this.selector = selector;
-    this.map = map;
-    this.marker = marker;
-    this.lat = lat;
-    this.lng = lng;
-    this.zoom = zoom;
-    this.msg = msg;
-    this.latEle = latEle;
-    this.lngEle = lngEle;
-    this.zoomEle = zoomEle;
-    return this;
   }
 
   updatePin({ lat = this.lat, lng = this.lng, zoom = this.zoom, msg = this.msg, disableViewUpdate = false }) {
