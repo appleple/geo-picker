@@ -8,6 +8,12 @@
 
 [https://rawgit.com/appleple/geo-picker/master/test/index.html](https://rawgit.com/appleple/geo-picker/master/test/index.html)
 
+## Install
+
+```sh
+npm install geo-picker --save
+```
+
 ## Usage
 
 js
