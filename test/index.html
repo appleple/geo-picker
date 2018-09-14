@@ -1,53 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Openmap Editor</title>
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
-   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-   crossorigin=""/>
-	<link rel="stylesheet" href="https://horicdesign.com/themes/system/css/acms-admin.min.css?date=20180829173409">
-</head>
-<body>
-<form class="acms-admin-form">
-<table class="formColumnMap {diff} js-osm_editable-container">
-	<tr>
-		<td class="formColumnMapTd">
-			<div class="acms-admin-margin-bottom-small">
-				<input type="text" size="34" name="mapSearchTexts[]" value="" class="mapSearchText js-search">
-				<input type="button" name="mapSearchButtons[]" value="検索" class="acms-admin-btn-admin js-search-btn">
-			</div>
-			<div class="acms-admin-gmap-container js-map" style="position:relative;">
-				<img class="column-map js-img" src="" width="400" height="400">
-			</div>
-		</td>
-		<td class="entryFormFileControl">
 
-			<table class="entryFormImageTable">
-				<tr class="textM detail-column-body detail-column-body--{id}">
-					<td>
-						<dl class="acms-admin-margin-none">
-							<dt><label for="unit-map-lat-{id}">緯度</label></dt>
-							<dd><input type="text" name="map_lat_{id}" value="35.1814" size="9" id="unit-map-lat-{id}" class="acms-admin-form-width-mini js-lat"></dd>
-							<dt><label for="unit-map-lng-{id}">経度</label></dt>
-							<dd><input type="text" name="map_lng_{id}" value="136.9064" size="10" id="unit-map-lng-{id}" class="acms-admin-form-width-mini js-lng"></dd>
-							<dt><label for="unit-map-zoom-{id}">ズーム</label></dt>
-							<dd><input type="number" name="map_zoom_{id}" value="13" size="2" id="unit-map-zoom-{id}" class="acms-admin-form-width-mini js-zoom"></dd>
-							<dt><label for="unit-map-msg-{id}">吹き出し ( HTML可 )</label></dt>
-							<dd><textarea name="map_msg_{id}" rows="9" id="unit-map-msg-{id}" class="map_msg_id js-msg">吹き出しのメッセージが入ります</textarea></dd>
-						</dl>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
-</form>
-<script src="../js/openmap-editor.js"></script>
-<script>
-const editor = new OpenmapEditor('.js-osm_editable-container')
-</script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>geo-picker</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+    crossorigin="" />
+  <link rel="stylesheet" href="https://horicdesign.com/themes/system/css/acms-admin.min.css?date=20180829173409">
+</head>
+
+<body>
+  <form class="acms-admin-form">
+    <table class="formColumnMap {diff} js-osm_editable-container">
+      <tr>
+        <td class="formColumnMapTd">
+          <div class="acms-admin-margin-bottom-small">
+            <input type="text" size="34" name="mapSearchTexts[]" value="" class="mapSearchText js-search">
+            <input type="button" name="mapSearchButtons[]" value="検索" class="acms-admin-btn-admin js-search-btn">
+          </div>
+          <div class="acms-admin-gmap-container js-map" style="position:relative;">
+            <img class="column-map js-img" src="" width="400" height="400">
+          </div>
+        </td>
+        <td class="entryFormFileControl">
+
+          <table class="entryFormImageTable">
+            <tr class="textM detail-column-body detail-column-body--{id}">
+              <td>
+                <dl class="acms-admin-margin-none">
+                  <dt><label for="unit-map-lat-{id}">緯度</label></dt>
+                  <dd><input type="text" name="map_lat_{id}" value="35.1814" size="9" id="unit-map-lat-{id}" class="acms-admin-form-width-mini js-lat"></dd>
+                  <dt><label for="unit-map-lng-{id}">経度</label></dt>
+                  <dd><input type="text" name="map_lng_{id}" value="136.9064" size="10" id="unit-map-lng-{id}" class="acms-admin-form-width-mini js-lng"></dd>
+                  <dt><label for="unit-map-zoom-{id}">ズーム</label></dt>
+                  <dd><input type="number" name="map_zoom_{id}" value="13" size="2" id="unit-map-zoom-{id}" class="acms-admin-form-width-mini js-zoom"></dd>
+                  <dt><label for="unit-map-msg-{id}">吹き出し ( HTML可 )</label></dt>
+                  <dd><textarea name="map_msg_{id}" rows="9" id="unit-map-msg-{id}" class="map_msg_id js-msg">吹き出しのメッセージが入ります</textarea></dd>
+                </dl>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <script src="../js/geo-picker.js"></script>
+  <script>
+    const editor = new GeoPicker('.js-osm_editable-container')
+  </script>
 </body>
+
 </html>

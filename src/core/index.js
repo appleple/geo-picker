@@ -14,7 +14,7 @@ const defaultOptions = {
   map: '.js-map'
 };
 
-export default class OpenMapEditor {
+export default class GeoPicker {
   constructor(item, options) {
     const opt = Object.assign({}, defaultOptions, options);
     const selector = document.querySelector(item);

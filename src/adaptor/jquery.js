@@ -1,12 +1,10 @@
-'use strict';
-
-const OpenmapEditor = require('../index');
+const GeoPicker = require('../index');
 
 const applyJQuery = (jQuery) => {
-  jQuery.fn.OpenmapEditor = function(settings) {
+  jQuery.fn.GeoPicker = function(settings) {
     if (typeof settings === 'strings'){
     } else {
-      new OpenmapEditor(this, settings);
+      new GeoPicker(this, settings);
     }
     return this;
   }

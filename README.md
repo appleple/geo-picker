@@ -1,4 +1,4 @@
-# OpenMapEditor
+# OSM Editor
 
 ## Screenshot
 

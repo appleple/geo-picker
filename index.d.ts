@@ -1,5 +1,5 @@
-declare module 'openmap-editor' {
-	interface OpenMapEditorOption {
+declare module 'geo-picker' {
+	interface GeoPickerOption {
 		searchInput?: string,
 		searchBtn?: string,
 		lngInput?: string,
@@ -17,9 +17,9 @@ declare module 'openmap-editor' {
 		disableViewUpdate?: boolean
 	}
 
-	export default class OpenMapEditor {
-		constructor(selector: string | HTMLElement, option?:OpenMapEditorOption) : OpenMapEditor;
-		updatePin(option: updateOption) : OpenMapEditor;
+	export default class GeoPicker {
+		constructor(selector: string | HTMLElement, option?:GeoPickerOption) : GeoPicker;
+		updatePin(option: updateOption) : GeoPicker;
 		destroy(): void
 	}
 }

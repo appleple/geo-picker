@@ -1,7 +1,7 @@
 {
-  "name": "openmap-editor",
+  "name": "geo-picker",
   "version": "0.0.1",
-  "description": "openmap-editor",
+  "description": "geo-picker",
   "homepage": "http://developer.a-blogcms.jp",
 	"main": "lib/index.js",
 	"types": "./index.d.ts",
@@ -9,10 +9,10 @@
     "test": "eslint ./src/core/index.js --fix",
     "build:js": "npm-run-all -p build:lib build:jquery build:global",
     "build:lib": "npm run babel",
-    "build:jquery": "browserify ./src/adaptor/jquery.js -t babelify -p licensify -o ./js/jquery-openmap-editor.js && npm run build:jquery:min",
-    "build:global": "browserify ./src/index.js -t babelify -p licensify --standalone OpenmapEditor -o ./js/openmap-editor.js && npm run build:global:min",
-    "build:jquery:min": "uglifyjs ./js/jquery-openmap-editor.js -m -c --comments -o ./js/jquery-openmap-editor.min.js",
-    "build:global:min": "uglifyjs ./js/openmap-editor.js -m -c --comments -o ./js/pretty-scroll.min.js",
+    "build:jquery": "browserify ./src/adaptor/jquery.js -t babelify -p licensify -o ./js/jquery-geo-picker.js && npm run build:jquery:min",
+    "build:global": "browserify ./src/index.js -t babelify -p licensify --standalone GeoPicker -o ./js/geo-picker.js && npm run build:global:min",
+    "build:jquery:min": "uglifyjs ./js/jquery-geo-picker.js -m -c --comments -o ./js/jquery-geo-picker.min.js",
+    "build:global:min": "uglifyjs ./js/geo-picker.js -m -c --comments -o ./js/pretty-scroll.min.js",
     "babel": "babel src --out-dir lib",
     "watch:js": "onchange \"src/\" -- npm run build:js",
     "sync": "browser-sync start --server './' --files './js/*.js' './css/*.css' --startPath '/test/index.html'",
@@ -51,9 +51,6 @@
     "watchify": "^3.9.0"
   },
   "dependencies": {
-    "babel-preset-flow": "^6.23.0",
-    "es6-object-assign": "^1.1.0",
-    "es6-promise-polyfill": "^1.2.0",
     "leaflet": "^1.3.4",
     "leaflet-geosearch": "^2.7.0"
   }
