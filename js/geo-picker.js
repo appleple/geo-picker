@@ -6,7 +6,7 @@
  *   license: appleple
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 0.1.0
+ *   version: 0.1.1
  *
  * leaflet:
  *   license: BSD-2-Clause (http://opensource.org/licenses/BSD-2-Clause)
@@ -16158,7 +16158,7 @@ var GeoPicker = function () {
     _classCallCheck(this, GeoPicker);
 
     var opt = Object.assign({}, defaultOptions, options);
-    var selector = document.querySelector(item);
+    var selector = typeof item === 'string' ? document.querySelector(item) : item;
     var mapEle = selector.querySelector(opt.map);
     var lngEle = selector.querySelector(opt.lngInput);
     var latEle = selector.querySelector(opt.latInput);
