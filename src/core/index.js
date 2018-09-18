@@ -17,7 +17,7 @@ const defaultOptions = {
 export default class GeoPicker {
   constructor(item, options) {
     const opt = Object.assign({}, defaultOptions, options);
-    const selector = document.querySelector(item);
+    const selector = typeof item === 'string' ? document.querySelector(item) : item;
     const mapEle = selector.querySelector(opt.map);
     const lngEle = selector.querySelector(opt.lngInput);
     const latEle = selector.querySelector(opt.latInput);
