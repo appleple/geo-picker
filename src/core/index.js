@@ -1,4 +1,4 @@
-import Leaflet from 'leaflet';
+import LeafletDefalt from 'leaflet';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 
 // setup
@@ -15,7 +15,7 @@ const defaultOptions = {
 };
 
 export default class GeoPicker {
-  constructor(item, options) {
+  constructor(item, options, Leaflet = LeafletDefalt) {
     const opt = Object.assign({}, defaultOptions, options);
     const selector = typeof item === 'string' ? document.querySelector(item) : item;
     if (!selector) {
@@ -36,8 +36,8 @@ export default class GeoPicker {
     const marker = Leaflet.marker(map.getCenter(), {
       draggable: true
     });
+    this.Leaflet = Leaflet;
     this.options = opt;
-    this.selector = selector;
     this.map = map;
     this.marker = marker;
     this.lat = lat;
@@ -50,24 +50,26 @@ export default class GeoPicker {
     this.zoomEle = zoomEle;
     this.searchInputEle = searchInputEle;
     this.searchBtn = searchBtn;
+    this.bindPopupFlag = false;
     return this;
   }
 
   run() {
-    const { map, msg, marker } = this;
+    const { map, msg, marker, Leaflet } = this;
     Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    marker.addTo(map)
-      .bindPopup(msg)
-      .openPopup();
+    const view = marker.addTo(map);
+    if (msg) {
+      view.bindPopup(msg);
+    }
     this.setEvent();
     return this;
   }
 
   setEvent() {
-    const { map, msgEle, marker, latEle, lngEle, zoomEle, searchBtn, searchInputEle } = this;
+    const { map, msgEle, marker, latEle, lngEle, zoomEle, searchBtn, searchInputEle, Leaflet } = this;
 
     if (lngEle) {
       ['input', 'change'].forEach((eventName) => {
@@ -145,7 +147,6 @@ export default class GeoPicker {
       }
     }
     this.marker.setLatLng([lat, lng]);
-    this.marker.setPopupContent(msg);
     this.lat = lat;
     this.lng = lng;
     this.zoom = zoom;
@@ -153,6 +154,17 @@ export default class GeoPicker {
     this.latEle.value = lat;
     this.lngEle.value = lng;
     this.zoomEle.value = zoom;
+    if (msg) {
+      if (this.bindPopupFlag) {
+        this.marker.bindPopup(msg);
+        this.bindPopupFlag = false;
+      }
+      this.marker.setPopupContent(msg);
+    } else {
+      this.marker.closePopup();
+      this.marker.unbindPopup();
+      this.bindPopupFlag = true;
+    }
     return this;
   }
 
