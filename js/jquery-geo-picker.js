@@ -16184,6 +16184,9 @@ var GeoPicker = function () {
 
     var opt = Object.assign({}, defaultOptions, options);
     var selector = typeof item === 'string' ? document.querySelector(item) : item;
+    if (!selector) {
+      return;
+    }
     var mapEle = selector.querySelector(opt.map);
     var lngEle = selector.querySelector(opt.lngInput);
     var latEle = selector.querySelector(opt.latInput);
@@ -16199,12 +16202,6 @@ var GeoPicker = function () {
     var marker = _leaflet2.default.marker(map.getCenter(), {
       draggable: true
     });
-    _leaflet2.default.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    marker.addTo(map).bindPopup(msg).openPopup();
-
     this.options = opt;
     this.selector = selector;
     this.map = map;
@@ -16219,11 +16216,25 @@ var GeoPicker = function () {
     this.zoomEle = zoomEle;
     this.searchInputEle = searchInputEle;
     this.searchBtn = searchBtn;
-    this.setEvent();
     return this;
   }
 
   _createClass(GeoPicker, [{
+    key: 'run',
+    value: function run() {
+      var map = this.map,
+          msg = this.msg,
+          marker = this.marker;
+
+      _leaflet2.default.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      marker.addTo(map).bindPopup(msg).openPopup();
+      this.setEvent();
+      return this;
+    }
+  }, {
     key: 'setEvent',
     value: function setEvent() {
       var _this = this;
@@ -16237,43 +16248,62 @@ var GeoPicker = function () {
           searchBtn = this.searchBtn,
           searchInputEle = this.searchInputEle;
 
-      lngEle.addEventListener('input', this.lngListener = function (e) {
-        var lng = e.target.value;
-        _this.updatePin({ lng: lng });
-      }, true);
 
-      latEle.addEventListener('input', this.latListener = function (e) {
-        var lat = e.target.value;
-        _this.updatePin({ lat: lat });
-      }, true);
+      if (lngEle) {
+        ['input', 'change'].forEach(function (eventName) {
+          lngEle.addEventListener(eventName, _this['lng' + eventName + 'Listener'] = function (e) {
+            var lng = e.target.value;
+            _this.updatePin({ lng: lng });
+          }, true);
+        });
+      }
+
+      if (latEle) {
+        ['input', 'change'].forEach(function (eventName) {
+          latEle.addEventListener(eventName, _this['lat' + eventName + 'Listener'] = function (e) {
+            var lat = e.target.value;
+            _this.updatePin({ lat: lat });
+          }, true);
+        });
+      }
+
+      if (zoomEle) {
+        ['input', 'change'].forEach(function (eventName) {
+          zoomEle.addEventListener(eventName, _this['zoom' + eventName + 'Listener'] = function (e) {
+            var zoom = e.target.value;
+            _this.updatePin({ zoom: zoom });
+          }, true);
+        });
+      }
+
+      if (msgEle) {
+        ['input', 'change'].forEach(function (eventName) {
+          msgEle.addEventListener('input', _this['msg' + eventName + 'Listener'] = function (e) {
+            var msg = e.target.value;
+            _this.updatePin({ msg: msg });
+          }, true);
+        });
+      }
+
+      if (searchBtn) {
+        searchBtn.addEventListener('click', this.searchBtnListener = function () {
+          var query = searchInputEle.value;
+          provider.search({ query: query }).then(function (results) {
+            if (results.length) {
+              var result = results[0];
+              _this.updatePin({
+                lng: result.x,
+                lat: result.y
+              });
+            }
+          });
+        }, true);
+      }
 
       map.on('zoomend', function () {
         _this.zoom = map.getZoom();
         _this.zoomEle.value = _this.zoom;
       });
-
-      zoomEle.addEventListener('input', this.zoomListener = function (e) {
-        var zoom = e.target.value;
-        _this.updatePin({ zoom: zoom });
-      }, true);
-
-      msgEle.addEventListener('input', this.msgListener = function (e) {
-        var msg = e.target.value;
-        _this.updatePin({ msg: msg });
-      }, true);
-
-      searchBtn.addEventListener('click', this.searchBtnListener = function () {
-        var query = searchInputEle.value;
-        provider.search({ query: query }).then(function (results) {
-          if (results.length) {
-            var result = results[0];
-            _this.updatePin({
-              lng: result.x,
-              lat: result.y
-            });
-          }
-        });
-      }, true);
 
       marker.on('drag', function () {
         var position = marker.getLatLng();
@@ -16326,11 +16356,34 @@ var GeoPicker = function () {
     value: function destroy() {
       var latEle = this.latEle,
           lngEle = this.lngEle,
-          zoomEle = this.zoomEle;
+          zoomEle = this.zoomEle,
+          msgEle = this.msgEle,
+          searchBtn = this.searchBtn;
 
-      latEle.removeEventListener('input', this.latListener, true);
-      lngEle.removeEventListener('input', this.lngListener, true);
-      zoomEle.removeEventListener('input', this.zoomListener, true);
+      if (latEle) {
+        latEle.removeEventListener('input', this.latinputListener, true);
+        latEle.removeEventListener('change', this.latchangeListener, true);
+      }
+
+      if (lngEle) {
+        lngEle.removeEventListener('input', this.lnginputListener, true);
+        lngEle.removeEventListener('change', this.lngchangeListener, true);
+      }
+
+      if (zoomEle) {
+        zoomEle.removeEventListener('input', this.zoominputListener, true);
+        zoomEle.removeEventListener('change', this.zoomchangeListener, true);
+      }
+
+      if (msgEle) {
+        msgEle.removeEventListener('input', this.msginputListener, true);
+        msgEle.removeEventListener('change', this.msginputListener, true);
+      }
+
+      if (searchBtn) {
+        searchBtn.removeEventListener('click', this.searchBtnListener, true);
+      }
+
       this.map.remove();
       this.map.off();
     }

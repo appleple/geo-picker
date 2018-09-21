@@ -18,6 +18,9 @@ export default class GeoPicker {
   constructor(item, options) {
     const opt = Object.assign({}, defaultOptions, options);
     const selector = typeof item === 'string' ? document.querySelector(item) : item;
+    if (!selector) {
+      return;
+    }
     const mapEle = selector.querySelector(opt.map);
     const lngEle = selector.querySelector(opt.lngInput);
     const latEle = selector.querySelector(opt.latInput);
@@ -33,14 +36,6 @@ export default class GeoPicker {
     const marker = Leaflet.marker(map.getCenter(), {
       draggable: true
     });
-    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    marker.addTo(map)
-      .bindPopup(msg)
-      .openPopup();
-
     this.options = opt;
     this.selector = selector;
     this.map = map;
@@ -55,49 +50,80 @@ export default class GeoPicker {
     this.zoomEle = zoomEle;
     this.searchInputEle = searchInputEle;
     this.searchBtn = searchBtn;
+    return this;
+  }
+
+  run() {
+    const { map, msg, marker } = this;
+    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    marker.addTo(map)
+      .bindPopup(msg)
+      .openPopup();
     this.setEvent();
     return this;
   }
 
   setEvent() {
     const { map, msgEle, marker, latEle, lngEle, zoomEle, searchBtn, searchInputEle } = this;
-    lngEle.addEventListener('input', this.lngListener = (e) => {
-      const lng = e.target.value;
-      this.updatePin({ lng });
-    }, true);
 
-    latEle.addEventListener('input', this.latListener = (e) => {
-      const lat = e.target.value;
-      this.updatePin({ lat });
-    }, true);
+    if (lngEle) {
+      ['input', 'change'].forEach((eventName) => {
+        lngEle.addEventListener(eventName, this[`lng${eventName}Listener`] = (e) => {
+          const lng = e.target.value;
+          this.updatePin({ lng });
+        }, true);
+      });
+    }
+
+    if (latEle) {
+      ['input', 'change'].forEach((eventName) => {
+        latEle.addEventListener(eventName, this[`lat${eventName}Listener`] = (e) => {
+          const lat = e.target.value;
+          this.updatePin({ lat });
+        }, true);
+      });
+    }
+
+    if (zoomEle) {
+      ['input', 'change'].forEach((eventName) => {
+        zoomEle.addEventListener(eventName, this[`zoom${eventName}Listener`] = (e) => {
+          const zoom = e.target.value;
+          this.updatePin({ zoom });
+        }, true);
+      });
+    }
+
+    if (msgEle) {
+      ['input', 'change'].forEach((eventName) => {
+        msgEle.addEventListener('input', this[`msg${eventName}Listener`] = (e) => {
+          const msg = e.target.value;
+          this.updatePin({ msg });
+        }, true);
+      });
+    }
+
+    if (searchBtn) {
+      searchBtn.addEventListener('click', this.searchBtnListener = () => {
+        const query = searchInputEle.value;
+        provider.search({ query }).then((results) => {
+          if (results.length) {
+            const result = results[0];
+            this.updatePin({
+              lng: result.x,
+              lat: result.y
+            });
+          }
+        });
+      }, true);
+    }
 
     map.on('zoomend', () => {
       this.zoom = map.getZoom();
       this.zoomEle.value = this.zoom;
     });
-
-    zoomEle.addEventListener('input', this.zoomListener = (e) => {
-      const zoom = e.target.value;
-      this.updatePin({ zoom });
-    }, true);
-
-    msgEle.addEventListener('input', this.msgListener = (e) => {
-      const msg = e.target.value;
-      this.updatePin({ msg });
-    }, true);
-
-    searchBtn.addEventListener('click', this.searchBtnListener = () => {
-      const query = searchInputEle.value;
-      provider.search({ query }).then((results) => {
-        if (results.length) {
-          const result = results[0];
-          this.updatePin({
-            lng: result.x,
-            lat: result.y
-          });
-        }
-      });
-    }, true);
 
     marker.on('drag', () => {
       const position = marker.getLatLng();
@@ -131,10 +157,31 @@ export default class GeoPicker {
   }
 
   destroy() {
-    const { latEle, lngEle, zoomEle } = this;
-    latEle.removeEventListener('input', this.latListener, true);
-    lngEle.removeEventListener('input', this.lngListener, true);
-    zoomEle.removeEventListener('input', this.zoomListener, true);
+    const { latEle, lngEle, zoomEle, msgEle, searchBtn } = this;
+    if (latEle) {
+      latEle.removeEventListener('input', this.latinputListener, true);
+      latEle.removeEventListener('change', this.latchangeListener, true);
+    }
+
+    if (lngEle) {
+      lngEle.removeEventListener('input', this.lnginputListener, true);
+      lngEle.removeEventListener('change', this.lngchangeListener, true);
+    }
+
+    if (zoomEle) {
+      zoomEle.removeEventListener('input', this.zoominputListener, true);
+      zoomEle.removeEventListener('change', this.zoomchangeListener, true);
+    }
+
+    if (msgEle) {
+      msgEle.removeEventListener('input', this.msginputListener, true);
+      msgEle.removeEventListener('change', this.msginputListener, true);
+    }
+
+    if (searchBtn) {
+      searchBtn.removeEventListener('click', this.searchBtnListener, true);
+    }
+
     this.map.remove();
     this.map.off();
   }
