@@ -6,7 +6,7 @@
  *   license: appleple
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 0.1.5
+ *   version: 0.1.6
  *
  * leaflet:
  *   license: BSD-2-Clause (http://opensource.org/licenses/BSD-2-Clause)
