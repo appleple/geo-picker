@@ -11,7 +11,8 @@ const defaultOptions = {
   latInput: '.js-lat',
   zoomInput: '.js-zoom',
   msgInput: '.js-msg',
-  map: '.js-map'
+  map: '.js-map',
+  tile: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 };
 
 export default class GeoPicker {
@@ -63,9 +64,14 @@ export default class GeoPicker {
     return this;
   }
 
+  invalidateSize() {
+    this.map.invalidateSize();
+    return this;
+  }
+
   run() {
     const { map, msg, marker, Leaflet } = this;
-    Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    Leaflet.tileLayer(this.options.title, {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 

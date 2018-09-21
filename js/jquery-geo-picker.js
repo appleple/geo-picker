@@ -16175,7 +16175,8 @@ var defaultOptions = {
   latInput: '.js-lat',
   zoomInput: '.js-zoom',
   msgInput: '.js-msg',
-  map: '.js-map'
+  map: '.js-map',
+  tile: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 };
 
 var GeoPicker = function () {
@@ -16237,6 +16238,12 @@ var GeoPicker = function () {
       return this;
     }
   }, {
+    key: 'invalidateSize',
+    value: function invalidateSize() {
+      this.map.invalidateSize();
+      return this;
+    }
+  }, {
     key: 'run',
     value: function run() {
       var map = this.map,
@@ -16244,7 +16251,7 @@ var GeoPicker = function () {
           marker = this.marker,
           Leaflet = this.Leaflet;
 
-      Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      Leaflet.tileLayer(this.options.title, {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(map);
 
