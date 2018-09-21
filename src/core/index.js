@@ -71,7 +71,7 @@ export default class GeoPicker {
 
   run() {
     const { map, msg, marker, Leaflet } = this;
-    Leaflet.tileLayer(this.options.title, {
+    Leaflet.tileLayer(this.options.tile, {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
