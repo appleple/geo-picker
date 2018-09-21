@@ -116,6 +116,17 @@ export default class GeoPicker {
       });
     }
 
+    if (searchInputEle) {
+      searchInputEle.addEventListener('keypress', (e) => {
+        if (e.keyCode === 13) {
+          if (searchBtn) {
+            searchBtn.click();
+          }
+          return false;
+        }
+      });
+    }
+
     if (searchBtn) {
       searchBtn.addEventListener('click', this.searchBtnListener = () => {
         const query = searchInputEle.value;
