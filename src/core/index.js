@@ -32,10 +32,10 @@ export default class GeoPicker {
     const searchInputEle = selector.querySelector(opt.searchInput);
     const searchBtn = selector.querySelector(opt.searchBtn);
     const msgEle = selector.querySelector(opt.msgInput);
-    const lat = latEle.value;
-    const lng = lngEle.value;
-    const zoom = zoomEle.value;
-    const msg = msgEle.value;
+    const lat = latEle ? latEle.value : '';
+    const lng = lngEle ? lngEle.value : '';
+    const zoom = zoomEle ? zoomEle.value : '';
+    const msg = msgEle ? msgEle.value : '';
     const map = Leaflet.map(mapEle).setView([lat, lng], zoom);
     const marker = Leaflet.marker(map.getCenter(), {
       draggable: true
@@ -58,12 +58,16 @@ export default class GeoPicker {
     return this;
   }
 
+  getMap() {
+    return this.map;
+  }
+
   setValues() {
     const { latEle, lngEle, zoomEle, msgEle } = this;
-    this.lat = latEle.value;
-    this.lng = lngEle.value;
-    this.zoom = zoomEle.value;
-    this.msg = msgEle.value;
+    this.lat = latEle ? latEle.value : '';
+    this.lng = lngEle ? lngEle.value : '';
+    this.zoom = zoomEle ? zoomEle.value : '';
+    this.msg = msgEle ? msgEle.value : '';
     return this;
   }
 
