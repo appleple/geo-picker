@@ -54,6 +54,15 @@ export default class GeoPicker {
     return this;
   }
 
+  setValues() {
+    const { latEle, lngEle, zoomEle, msgEle } = this;
+    this.lat = latEle.value;
+    this.lng = lngEle.value;
+    this.zoom = zoomEle.value;
+    this.msg = msgEle.value;
+    return this;
+  }
+
   run() {
     const { map, msg, marker, Leaflet } = this;
     Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

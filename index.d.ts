@@ -20,6 +20,8 @@ declare module 'geo-picker' {
 	export default class GeoPicker {
 		constructor(selector: string | HTMLElement, option?:GeoPickerOption) : GeoPicker;
 		updatePin(option: updateOption) : GeoPicker;
+		setValues() : GeoPicker;
+		run(): GeoPicker;
 		destroy(): void
 	}
 }
