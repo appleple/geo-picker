@@ -20,9 +20,12 @@ export default class GeoPicker {
     const opt = Object.assign({}, defaultOptions, options);
     const selector = typeof item === 'string' ? document.querySelector(item) : item;
     if (!selector) {
-      return;
+      return this;
     }
     const mapEle = selector.querySelector(opt.map);
+    if (!mapEle) {
+      return this;
+    }
     const lngEle = selector.querySelector(opt.lngInput);
     const latEle = selector.querySelector(opt.latInput);
     const zoomEle = selector.querySelector(opt.zoomInput);
