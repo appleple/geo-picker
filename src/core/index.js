@@ -146,6 +146,10 @@ export default class GeoPicker {
         provider.search({ query }).then((results) => {
           if (results.length) {
             const result = results[0];
+            if (latEle) {
+              latEle.value = result.x;
+              lngEle.value = result.y;
+            }
             this.updatePin({
               lng: result.x,
               lat: result.y

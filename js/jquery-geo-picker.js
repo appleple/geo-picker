@@ -16339,6 +16339,10 @@ var GeoPicker = function () {
           provider.search({ query: query }).then(function (results) {
             if (results.length) {
               var result = results[0];
+              if (latEle) {
+                latEle.value = result.x;
+                lngEle.value = result.y;
+              }
               _this.updatePin({
                 lng: result.x,
                 lat: result.y
