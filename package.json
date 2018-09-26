@@ -1,6 +1,6 @@
 {
   "name": "geo-picker",
-  "version": "0.1.9",
+  "version": "1.0.0",
   "description": "geo-picker",
   "homepage": "http://developer.a-blogcms.jp",
   "main": "lib/index.js",
