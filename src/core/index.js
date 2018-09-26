@@ -136,7 +136,7 @@ export default class GeoPicker {
 
     if (parentForm) {
       parentForm.addEventListener('keypress', this.formListener = (e) => {
-        if (e.keyCode === 13) {
+        if (e.target === searchInputEle && e.keyCode === 13) {
           if (searchBtn) {
             searchBtn.click();
           }
