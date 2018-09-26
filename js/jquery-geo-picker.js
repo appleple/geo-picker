@@ -16326,6 +16326,7 @@ var GeoPicker = function () {
         searchInputEle.addEventListener('keypress', function (e) {
           if (e.keyCode === 13) {
             if (searchBtn) {
+              e.preventDefault();
               searchBtn.click();
             }
             return false;
