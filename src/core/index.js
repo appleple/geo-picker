@@ -1,5 +1,6 @@
 import LeafletDefalt from 'leaflet';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import { findAncestor } from '../lib/util';
 
 // setup
 const provider = new OpenStreetMapProvider();
@@ -40,6 +41,9 @@ export default class GeoPicker {
     const marker = Leaflet.marker(map.getCenter(), {
       draggable: true
     });
+    if (searchInputEle) {
+      this.parentForm = findAncestor(searchInputEle, 'form');
+    }
     this.Leaflet = Leaflet;
     this.options = opt;
     this.map = map;
@@ -91,7 +95,8 @@ export default class GeoPicker {
   }
 
   setEvent() {
-    const { map, msgEle, marker, latEle, lngEle, zoomEle, searchBtn, searchInputEle, Leaflet } = this;
+    const { map, msgEle, marker, latEle, lngEle, zoomEle, searchBtn, searchInputEle, Leaflet, parentForm } = this;
+
 
     if (lngEle) {
       ['input', 'change'].forEach((eventName) => {
@@ -129,13 +134,13 @@ export default class GeoPicker {
       });
     }
 
-    if (searchInputEle) {
-      searchInputEle.addEventListener('keydown', (e) => {
+    if ( parentForm ) {
+      parentForm.addEventListener('keypress', this.formListener = (e) => {
         if (e.keyCode === 13) {
           if (searchBtn) {
-            e.preventDefault();
             searchBtn.click();
           }
+          e.preventDefault();
           return false;
         }
       });
@@ -207,7 +212,7 @@ export default class GeoPicker {
   }
 
   destroy() {
-    const { latEle, lngEle, zoomEle, msgEle, searchBtn } = this;
+    const { latEle, lngEle, zoomEle, msgEle, searchBtn, parentForm } = this;
     if (latEle) {
       latEle.removeEventListener('input', this.latinputListener, true);
       latEle.removeEventListener('change', this.latchangeListener, true);
@@ -230,6 +235,10 @@ export default class GeoPicker {
 
     if (searchBtn) {
       searchBtn.removeEventListener('click', this.searchBtnListener, true);
+    }
+
+    if (parentForm) {
+      parentForm.removeEventListener('keypress', this.formListener, true);
     }
 
     this.map.remove();
