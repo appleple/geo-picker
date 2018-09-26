@@ -6,7 +6,7 @@
  *   license: appleple
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.0.0
+ *   version: 1.0.1
  *
  * leaflet:
  *   license: BSD-2-Clause (http://opensource.org/licenses/BSD-2-Clause)
@@ -16242,6 +16242,8 @@ var _leaflet2 = _interopRequireDefault(_leaflet);
 
 var _leafletGeosearch = require('leaflet-geosearch');
 
+var _util = require('../lib/util');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -16289,6 +16291,9 @@ var GeoPicker = function () {
     var marker = Leaflet.marker(map.getCenter(), {
       draggable: true
     });
+    if (searchInputEle) {
+      this.parentForm = (0, _util.findAncestor)(searchInputEle, 'form');
+    }
     this.Leaflet = Leaflet;
     this.options = opt;
     this.map = map;
@@ -16364,7 +16369,8 @@ var GeoPicker = function () {
           zoomEle = this.zoomEle,
           searchBtn = this.searchBtn,
           searchInputEle = this.searchInputEle,
-          Leaflet = this.Leaflet;
+          Leaflet = this.Leaflet,
+          parentForm = this.parentForm;
 
 
       if (lngEle) {
@@ -16403,13 +16409,13 @@ var GeoPicker = function () {
         });
       }
 
-      if (searchInputEle) {
-        searchInputEle.addEventListener('keydown', function (e) {
+      if (parentForm) {
+        parentForm.addEventListener('keypress', this.formListener = function (e) {
           if (e.keyCode === 13) {
             if (searchBtn) {
-              e.preventDefault();
               searchBtn.click();
             }
+            e.preventDefault();
             return false;
           }
         });
@@ -16502,7 +16508,8 @@ var GeoPicker = function () {
           lngEle = this.lngEle,
           zoomEle = this.zoomEle,
           msgEle = this.msgEle,
-          searchBtn = this.searchBtn;
+          searchBtn = this.searchBtn,
+          parentForm = this.parentForm;
 
       if (latEle) {
         latEle.removeEventListener('input', this.latinputListener, true);
@@ -16528,6 +16535,10 @@ var GeoPicker = function () {
         searchBtn.removeEventListener('click', this.searchBtnListener, true);
       }
 
+      if (parentForm) {
+        parentForm.removeEventListener('keypress', this.formListener, true);
+      }
+
       this.map.remove();
       this.map.off();
     }
@@ -16539,9 +16550,28 @@ var GeoPicker = function () {
 exports.default = GeoPicker;
 module.exports = exports['default'];
 
-},{"leaflet":12,"leaflet-geosearch":3}],21:[function(require,module,exports){
+},{"../lib/util":22,"leaflet":12,"leaflet-geosearch":3}],21:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./core/');
 
-},{"./core/":20}]},{},[19]);
+},{"./core/":20}],22:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var findAncestor = exports.findAncestor = function findAncestor(el, query) {
+  if (typeof el.closest === 'function') {
+    return el.closest(query) || null;
+  }
+  while (el) {
+    if (matches(el, query)) {
+      return el;
+    }
+    el = el.parentElement;
+  }
+  return null;
+};
+
+},{}]},{},[19]);
