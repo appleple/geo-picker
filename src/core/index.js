@@ -133,7 +133,7 @@ export default class GeoPicker {
       searchInputEle.addEventListener('keypress', (e) => {
         if (e.keyCode === 13) {
           if (searchBtn) {
-						e.preventDefault();
+            e.preventDefault();
             searchBtn.click();
           }
           return false;
