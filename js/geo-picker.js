@@ -6,7 +6,7 @@
  *   license: appleple
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.0.1
+ *   version: 1.0.2
  *
  * leaflet:
  *   license: BSD-2-Clause (http://opensource.org/licenses/BSD-2-Clause)
@@ -16386,7 +16386,7 @@ var GeoPicker = function () {
 
       if (parentForm) {
         parentForm.addEventListener('keypress', this.formListener = function (e) {
-          if (e.keyCode === 13) {
+          if (e.target === searchInputEle && e.keyCode === 13) {
             if (searchBtn) {
               searchBtn.click();
             }
