@@ -1,4 +1,4 @@
-import LeafletDefalt from 'leaflet';
+import Leaflet from 'leaflet';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { findAncestor } from '../lib/util';
 
@@ -17,7 +17,7 @@ const defaultOptions = {
 };
 
 export default class GeoPicker {
-  constructor(item, options, Leaflet = LeafletDefalt) {
+  constructor(item, options) {
     const opt = Object.assign({}, defaultOptions, options);
     const selector = typeof item === 'string' ? document.querySelector(item) : item;
     if (!selector) {
@@ -44,7 +44,6 @@ export default class GeoPicker {
     if (searchInputEle) {
       this.parentForm = findAncestor(searchInputEle, 'form');
     }
-    this.Leaflet = Leaflet;
     this.options = opt;
     this.map = map;
     this.marker = marker;
@@ -81,7 +80,7 @@ export default class GeoPicker {
   }
 
   run() {
-    const { map, msg, marker, Leaflet } = this;
+    const { map, msg, marker } = this;
     Leaflet.tileLayer(this.options.tile, {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
@@ -95,7 +94,7 @@ export default class GeoPicker {
   }
 
   setEvent() {
-    const { map, msgEle, marker, latEle, lngEle, zoomEle, searchBtn, searchInputEle, Leaflet, parentForm } = this;
+    const { map, msgEle, marker, latEle, lngEle, zoomEle, searchBtn, searchInputEle, parentForm } = this;
 
 
     if (lngEle) {
