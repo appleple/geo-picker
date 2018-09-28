@@ -6,7 +6,7 @@
  *   license: appleple
  *   author: appleple
  *   homepage: http://developer.a-blogcms.jp
- *   version: 1.0.3
+ *   version: 1.0.4
  *
  * leaflet:
  *   license: BSD-2-Clause (http://opensource.org/licenses/BSD-2-Clause)
@@ -16264,8 +16264,6 @@ var defaultOptions = {
 
 var GeoPicker = function () {
   function GeoPicker(item, options) {
-    var Leaflet = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _leaflet2.default;
-
     _classCallCheck(this, GeoPicker);
 
     var opt = Object.assign({}, defaultOptions, options);
@@ -16287,14 +16285,13 @@ var GeoPicker = function () {
     var lng = lngEle ? lngEle.value : '';
     var zoom = zoomEle ? zoomEle.value : '';
     var msg = msgEle ? msgEle.value : '';
-    var map = Leaflet.map(mapEle).setView([lat, lng], zoom);
-    var marker = Leaflet.marker(map.getCenter(), {
+    var map = _leaflet2.default.map(mapEle).setView([lat, lng], zoom);
+    var marker = _leaflet2.default.marker(map.getCenter(), {
       draggable: true
     });
     if (searchInputEle) {
       this.parentForm = (0, _util.findAncestor)(searchInputEle, 'form');
     }
-    this.Leaflet = Leaflet;
     this.options = opt;
     this.map = map;
     this.marker = marker;
@@ -16342,10 +16339,9 @@ var GeoPicker = function () {
     value: function run() {
       var map = this.map,
           msg = this.msg,
-          marker = this.marker,
-          Leaflet = this.Leaflet;
+          marker = this.marker;
 
-      Leaflet.tileLayer(this.options.tile, {
+      _leaflet2.default.tileLayer(this.options.tile, {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(map);
 
@@ -16369,7 +16365,6 @@ var GeoPicker = function () {
           zoomEle = this.zoomEle,
           searchBtn = this.searchBtn,
           searchInputEle = this.searchInputEle,
-          Leaflet = this.Leaflet,
           parentForm = this.parentForm;
 
 
@@ -16458,7 +16453,7 @@ var GeoPicker = function () {
         var lat = position.lat,
             lng = position.lng;
 
-        map.panTo(new Leaflet.LatLng(lat, lng));
+        map.panTo(new _leaflet2.default.LatLng(lat, lng));
       });
     }
   }, {
