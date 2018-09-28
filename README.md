@@ -11,7 +11,7 @@
 ## Install
 
 ```sh
-npm install geo-picker --save
+npm install leaflet geo-picker --save
 ```
 
 ## Usage
